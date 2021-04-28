@@ -6,6 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import com.nwebber.instamet.R
 
 class MainFragment : Fragment() {
@@ -14,17 +18,30 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private val sharedViewModel: MainViewModel by activityViewModels()
+    private lateinit var searchButton: Button
+    private lateinit var inputField: EditText
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        val view =  inflater.inflate(R.layout.main_fragment, container, false)
+        inputField = view.findViewById(R.id.keyword_input_textView)
+        searchButton = view.findViewById(R.id.search_button)
+
+        searchButton.setOnClickListener {
+            var input : String = inputField.text.toString()
+            if ((input != null) and (input != "Keyword") and (input != "")){ //ensure that there's an actual input
+                sharedViewModel.search_query = input
+                view.findNavController().navigate(R.id.action_mainFragment_to_resultFragment)
+            }
+            else{
+                //TODO alert there was no input
+            }
+        }
+
+
+        return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
 }

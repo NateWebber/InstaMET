@@ -4,6 +4,7 @@
 
     <string name="search">Suche</string>
     <string name="keyword">Schlüsselwort</string>
+    <string name="input_keyword">Geben Sie ein Schlüsselwort ein!</string>
     <string name="no_result">Es konnten keine Ergebnisse für Ihre Anfrage gefunden werden!</string>
     <string name="settings">Einstellungen</string>
     <string name="search_results">Suchergebnisse</string>
