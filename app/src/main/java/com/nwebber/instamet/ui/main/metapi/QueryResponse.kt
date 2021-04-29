@@ -1,10 +1,10 @@
 package com.nwebber.instamet.ui.main.metapi
 
-class QueryObjects {
+class Search {
     var total: Int = 0
-    var objectIDs: Array<Int> = arrayOf()
+    //var objectIDs: Array<Int> = arrayOf()
 }
 
 class QueryResponse {
-    val objects: QueryObjects? = null
+    val objects: Search? = null
 }

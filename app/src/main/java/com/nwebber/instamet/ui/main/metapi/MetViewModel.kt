@@ -10,6 +10,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 
 private const val TAG = "MetViewModel"
@@ -19,7 +20,8 @@ private const val TAG = "MetViewModel"
 class MetViewModel : ViewModel(){
     companion object{
         val metApi: MetAPI by lazy {
-            val retrofit = Retrofit.Builder().baseUrl("https://collectionapi.metmuseum.org").addConverterFactory(GsonConverterFactory.create()).build()
+            val retrofit = Retrofit.Builder().baseUrl("https://collectionapi.metmuseum.org").addConverterFactory(
+                ScalarsConverterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build()
             return@lazy retrofit.create(MetAPI::class.java)
         }
     }
@@ -43,8 +45,19 @@ class MetViewModel : ViewModel(){
                 _objects.value = arrayOf()
                 _total.value = 0
 
+                if (response.body() != null){
+                    Log.d(TAG, "There's a body!")
+                    Log.d(TAG, response.body().toString())
+                }
+                if(response.errorBody() != null){
+                    Log.d(TAG, "There's an error body!")
+                }
+                if (response.body()?.objects != null){
+                    Log.d(TAG, "There's objects!")
+                }
                 response.body()?.objects?.let {
-                    _objects.value = it.objectIDs
+                    Log.d(TAG, "Running code in 'let' block")
+                    //_objects.value = it.objectIDs
                     _total.value = it.total
                     Log.d(TAG, "Value of total from response:")
                     Log.d(TAG, it.total.toString())
