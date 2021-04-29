@@ -4,11 +4,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 private const val TAG = "MetViewModel"
 
@@ -37,16 +39,20 @@ class MetViewModel : ViewModel(){
         Log.d(TAG, metRequest.request().url().toString())
         metRequest.enqueue(object : Callback<QueryResponse> {
             override fun onResponse(call: Call<QueryResponse>, response: Response<QueryResponse>) {
-
+                Log.d(TAG, "Got a response!")
                 _objects.value = arrayOf()
                 _total.value = 0
 
                 response.body()?.objects?.let {
                     _objects.value = it.objectIDs
                     _total.value = it.total
+                    Log.d(TAG, "Value of total from response:")
+                    Log.d(TAG, it.total.toString())
 
                 }
+                Log.d(TAG, "Current total value:")
                 Log.d(TAG, _total.value.toString())
+
             }
 
             override fun onFailure(call: Call<QueryResponse>, t: Throwable) {
