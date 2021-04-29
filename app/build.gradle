@@ -51,4 +51,9 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.4'
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+    //retrofit
+    def retrofit_version = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 }
