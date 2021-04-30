@@ -10,7 +10,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.http.Body
 
 
 private const val TAG = "MetViewModel"
@@ -20,56 +20,37 @@ private const val TAG = "MetViewModel"
 class MetViewModel : ViewModel(){
     companion object{
         val metApi: MetAPI by lazy {
-            val retrofit = Retrofit.Builder().baseUrl("https://collectionapi.metmuseum.org").addConverterFactory(
-                ScalarsConverterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build()
+            val retrofit = Retrofit.Builder().baseUrl("https://collectionapi.metmuseum.org").addConverterFactory(GsonConverterFactory.create()).build()
             return@lazy retrofit.create(MetAPI::class.java)
         }
     }
 
-    private val _query = MutableLiveData<String>()
-
-    private val _objects = MutableLiveData<Array<Int>>()
-    var objects: LiveData<Array<Int>> = _objects
-
-    private val _total = MutableLiveData<Int>()
-    var total: LiveData<Int> = _total
 
     fun fetchObjectsByQuery(hasImages: String, query: String){
-        _query.value = query
 
-        val metRequest: Call<QueryResponse> = metApi.getObjects("true", query)
-        Log.d(TAG, metRequest.request().url().toString())
-        metRequest.enqueue(object : Callback<QueryResponse> {
-            override fun onResponse(call: Call<QueryResponse>, response: Response<QueryResponse>) {
+        val metRequest: Call<MetObjectResponse> = metApi.getObjects("561553")
+        Log.d(TAG, metRequest.request().url().toString()) //print url
+        metRequest.enqueue(object : Callback<MetObjectResponse> {
+            override fun onResponse(call: Call<MetObjectResponse>, response: Response<MetObjectResponse>) {
                 Log.d(TAG, "Got a response!")
-                _objects.value = arrayOf()
-                _total.value = 0
+                val body = response.body()
+                if (body != null){
+                    Log.d(TAG, "Response has non-null body!")
+                    if (response.body()?.metObject != null){
+                        Log.d(TAG, "Response has non-null metobject!")
+                    }
+                }
 
-                if (response.body() != null){
-                    Log.d(TAG, "There's a body!")
-                    Log.d(TAG, response.body().toString())
-                }
-                if(response.errorBody() != null){
-                    Log.d(TAG, "There's an error body!")
-                }
-                if (response.body()?.objects != null){
-                    Log.d(TAG, "There's objects!")
-                }
-                response.body()?.objects?.let {
-                    Log.d(TAG, "Running code in 'let' block")
-                    //_objects.value = it.objectIDs
-                    _total.value = it.total
-                    Log.d(TAG, "Value of total from response:")
-                    Log.d(TAG, it.total.toString())
 
-                }
-                Log.d(TAG, "Current total value:")
-                Log.d(TAG, _total.value.toString())
+                Log.d(TAG, "ID should be 561553 and is: ${body?.metObject?.objectId.toString()}")
+                Log.d(TAG, "Primary Image should be https://images.metmuseum.org/CRDImages/eg/original/23.10.49_EGDP017143.jpg and is: ${body?.metObject?.primaryImage.toString()}")
+                Log.d(TAG, "objectName should be Amulet, ba-bird and is: ${body?.metObject?.objectName.toString()}")
+                Log.d(TAG, "Medium should be Gold sheet and is: ${body?.metObject?.objectId.toString()}")
 
             }
 
-            override fun onFailure(call: Call<QueryResponse>, t: Throwable) {
-                Log.d(TAG, "No response for QueryObjects.")
+            override fun onFailure(call: Call<MetObjectResponse>, t: Throwable) {
+                Log.d(TAG, "No response for MetObject.")
             }
         })
     }
