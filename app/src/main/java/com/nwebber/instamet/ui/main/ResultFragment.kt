@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.nwebber.instamet.R
+import com.nwebber.instamet.ui.main.jokeapi.JokeViewModel
 import com.nwebber.instamet.ui.main.metapi.MetViewModel
 import com.squareup.picasso.Picasso
 
@@ -27,6 +28,9 @@ class ResultFragment : Fragment() {
 
     private val metViewModel: MetViewModel by lazy{
         ViewModelProvider(this).get(MetViewModel::class.java)
+    }
+    private val jokeViewModel: JokeViewModel by lazy{
+        ViewModelProvider(this).get(JokeViewModel::class.java)
     }
 
     private lateinit var textView : TextView
@@ -51,7 +55,7 @@ class ResultFragment : Fragment() {
             if (sharedViewModel.search_query != null){
                 //var completedQuery: String  = "?hasImages=true&q=${sharedViewModel.search_query}"
                 //Log.d(TAG, "Completed Query: $completedQuery")
-                metViewModel.fetchObjectsByQuery("true", sharedViewModel.search_query!!)
+                jokeViewModel.fetchAnyJoke()
             }
         }
 

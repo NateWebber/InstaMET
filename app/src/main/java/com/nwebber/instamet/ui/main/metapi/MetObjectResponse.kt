@@ -1,11 +1,10 @@
 package com.nwebber.instamet.ui.main.metapi
-
 import com.google.gson.annotations.SerializedName
 
 class MetObject {
 
     @SerializedName("objectID")
-    var objectId : Int = 0
+    var objectID : Int = 0
     @SerializedName("primaryImage")
     var primaryImage: String = ""
     @SerializedName("objectName")
@@ -15,5 +14,5 @@ class MetObject {
 }
 
 class MetObjectResponse {
-    val metObject: MetObject? = null
+    var metObject: MetObject? = null
 }
