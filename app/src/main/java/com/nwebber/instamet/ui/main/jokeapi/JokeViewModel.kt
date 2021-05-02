@@ -7,6 +7,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 
 private const val TAG = "JokeViewModel"
@@ -34,7 +35,7 @@ class JokeViewModel : ViewModel(){
                 if (body != null){
                     Log.d(TAG, "Response has non-null body!")
                     Log.d(TAG, "Body: ${body.toString()}")
-                    if (response.body()?.joke != null){
+                    if (body.joke != null){
                         Log.d(TAG, "Response has non-null joke!")
                     }
                 }
