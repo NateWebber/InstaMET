@@ -43,7 +43,7 @@ class ResultFragment : Fragment() {
 
 
     private lateinit var nextButton: Button
-    private lateinit var backButton: Button
+    //private lateinit var backButton: Button
 
     private var current_list_index : Int = 0
 
@@ -64,7 +64,7 @@ class ResultFragment : Fragment() {
         mediumText = view.findViewById(R.id.art_medium_textView)
 
         nextButton = view.findViewById(R.id.next_button)
-        backButton = view.findViewById(R.id.back_button)
+        //backButton = view.findViewById(R.id.back_button)
 
         sharedViewModel.search_query?.let { metViewModel.runSearchByKeyWord(it) }
 
@@ -80,7 +80,7 @@ class ResultFragment : Fragment() {
             updateUI()
         }
 
-        backButton.setOnClickListener {
+        /*backButton.setOnClickListener {
             if (current_list_index == 0 ){
                 //TODO alert for start of list
             }
@@ -90,7 +90,7 @@ class ResultFragment : Fragment() {
             }
 
             updateUI()
-        }
+        }*/
 
         return view
     }
