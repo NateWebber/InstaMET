@@ -1,18 +1,15 @@
 package com.nwebber.instamet.ui.main.metapi
-import com.google.gson.annotations.SerializedName
 
-class MetObject {
+import com.squareup.moshi.Json
 
-    @SerializedName("objectID")
-    var objectID : Int = 0
-    @SerializedName("primaryImage")
-    var primaryImage: String = ""
-    @SerializedName("objectName")
-    var objectName: String = ""
-    @SerializedName("medium")
-    var medium: String =""
-}
 
-class MetObjectResponse {
-    var metObject: MetObject? = null
-}
+data class MetObject (
+        @Json(name = "objectID") var objectID: Int,
+        @Json(name = "primaryImage") var primaryImage: String,
+        @Json(name = "objectName") var objectName: String,
+        @Json(name = "medium") var medium: String
+)
+
+/*data class MetObjectResponse (
+    val metObject: MetObject
+)*/

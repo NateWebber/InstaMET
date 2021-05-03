@@ -24,7 +24,7 @@ private const val TAG = "StockViewModel"
 class StockViewModel : ViewModel(){
     companion object{
         val stockApi: StockAPI by lazy {
-            val retrofit = Retrofit.Builder().baseUrl("https://financialmodelingprep.com").addConverterFactory(MoshiConverterFactory.create()).build()
+            val retrofit = Retrofit.Builder().baseUrl("https://financialmodelingprep.com").addConverterFactory(GsonConverterFactory.create()).build()
             return@lazy retrofit.create(StockAPI::class.java)
         }
 

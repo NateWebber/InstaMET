@@ -59,7 +59,7 @@ class ResultFragment : Fragment() {
             if (sharedViewModel.search_query != null){
                 //var completedQuery: String  = "?hasImages=true&q=${sharedViewModel.search_query}"
                 //Log.d(TAG, "Completed Query: $completedQuery")
-                stockViewModel.fetchApple()
+                metViewModel.fetchObjectByID()
             }
         }
 
