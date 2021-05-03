@@ -9,7 +9,3 @@ data class MetObject (
         @Json(name = "objectName") var objectName: String,
         @Json(name = "medium") var medium: String
 )
-
-/*data class MetObjectResponse (
-    val metObject: MetObject
-)*/
