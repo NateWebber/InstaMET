@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.nwebber.instamet.ui.main.ResultFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,18 +22,24 @@ private const val TAG = "MetViewModel"
 
 class MetViewModel : ViewModel(){
 
-    fun fetchObjectByID(id : String){
-        val metRequest: Call<MetObject> = metApi.getObject(id)
+    var search_results : List<Int>? = null
+    var current_object : MetObject? = null
+
+    fun fetchObjectByID(id : Int){
+        val metRequest: Call<MetObject> = metApi.getObject(id.toString())
         Log.d(TAG, metRequest.request().url().toString()) //print url
         metRequest.enqueue(object : Callback<MetObject> {
             override fun onResponse(call: Call<MetObject>, response: Response<MetObject>) {
-                Log.d(TAG, "Got a response!")
+                Log.d(TAG, "Got a response for Object!")
                 val body : MetObject? = response.body()
                 if (body != null){
                     Log.d(TAG, "ID: ${body?.objectID}")
                     Log.d(TAG, "Primary Image: ${body?.primaryImage}")
-                    Log.d(TAG, "objectName: ${body?.objectName}")
+                    Log.d(TAG, "Title: ${body?.title}")
+                    Log.d(TAG, "Artist: ${body?.artistName}")
+                    Log.d(TAG, "Year: ${body?.beginYear}")
                     Log.d(TAG, "Medium: ${body?.medium}")
+                    current_object = body
                 }
             }
             override fun onFailure(call: Call<MetObject>, t: Throwable) {
@@ -46,11 +53,14 @@ class MetViewModel : ViewModel(){
         Log.d(TAG, metRequest.request().url().toString())
         metRequest.enqueue(object : Callback<MetSearch>{
             override fun onResponse(call: Call<MetSearch>, response: Response<MetSearch>) {
-                Log.d(TAG, "Got a response!")
+                Log.d(TAG, "Got a response for search!")
                 val body : MetSearch? = response.body()
                 if (body != null){
                     Log.d(TAG, "Total: ${body?.total}")
                     Log.d(TAG, "IDs: ${body?.objectIDs}") //might have to comment this one out later
+                    search_results = body.objectIDs
+                    Log.d(TAG, "First id is ${search_results!![0]}")
+                    fetchObjectByID(search_results!![0])
                 }
             }
 

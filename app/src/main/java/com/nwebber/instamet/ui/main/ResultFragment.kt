@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.nwebber.instamet.R
+import com.nwebber.instamet.ui.main.metapi.MetObject
 
 import com.nwebber.instamet.ui.main.metapi.MetViewModel
 
@@ -31,9 +32,20 @@ class ResultFragment : Fragment() {
         ViewModelProvider(this).get(MetViewModel::class.java)
     }
 
-    private lateinit var textView : TextView
+    //var current_object : MetObject? = null
+
     private lateinit var imageView: ImageView
-    private lateinit var testButton: Button
+
+    private lateinit var titleText: TextView
+    private lateinit var artistText: TextView
+    private lateinit var dateText: TextView
+    private lateinit var mediumText: TextView
+
+
+    private lateinit var nextButton: Button
+    private lateinit var backButton: Button
+
+    private var current_list_index : Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,21 +53,61 @@ class ResultFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_result, container, false)
 
-        textView = view.findViewById(R.id.test_text)
-        textView.text = sharedViewModel.search_query
+        current_list_index = 0
 
-        var imageUrl : String = "https://nas-national-prod.s3.amazonaws.com/aud_gbbc-2016_dark-eyed-junco_34384_kk_oh_photo-michele-black.jpg"
-        imageView = view.findViewById(R.id.test_imageView)
-        Picasso.get().load(imageUrl).into(imageView)
 
-        testButton = view.findViewById(R.id.test_button)
-        testButton.setOnClickListener {
-            if (sharedViewModel.search_query != null){
-                metViewModel.runSearchByKeyWord(sharedViewModel.search_query!!)
-            }
+        imageView = view.findViewById(R.id.main_imageView)
+
+        titleText = view.findViewById(R.id.art_title_textView)
+        artistText = view.findViewById(R.id.art_artist_textView)
+        dateText = view.findViewById(R.id.art_date_textView)
+        mediumText = view.findViewById(R.id.art_medium_textView)
+
+        nextButton = view.findViewById(R.id.next_button)
+        backButton = view.findViewById(R.id.back_button)
+
+        sharedViewModel.search_query?.let { metViewModel.runSearchByKeyWord(it) }
+
+        nextButton.setOnClickListener {
+            updateUI()
         }
 
         return view
+    }
+
+
+    private fun updateUI(){
+        Log.d(TAG, "Updating UI")
+
+        Picasso.get().load(metViewModel.current_object?.primaryImage).into(imageView)
+
+        if (metViewModel.current_object?.title == null || metViewModel.current_object?.title == ""){
+            titleText.text = getString(R.string.unknown_title)
+        }
+        else{
+            titleText.text = metViewModel.current_object?.title
+        }
+
+        if (metViewModel.current_object?.artistName == null || metViewModel.current_object?.artistName == ""){
+            artistText.text = getString(R.string.unknown_artist)
+        }
+        else{
+            artistText.text = metViewModel.current_object?.artistName
+        }
+        if (metViewModel.current_object?.beginYear == null || metViewModel.current_object?.beginYear == 0){
+            dateText.text = getString(R.string.unknown_date)
+        }
+        else{
+            dateText.text = metViewModel.current_object?.beginYear.toString() //TODO figure this out
+        }
+        if (metViewModel.current_object?.medium == null || metViewModel.current_object?.medium == ""){
+            mediumText.text = getString(R.string.unknown_medium)
+        }
+        else{
+            mediumText.text = metViewModel.current_object?.medium
+        }
+
+
     }
 
     companion object {

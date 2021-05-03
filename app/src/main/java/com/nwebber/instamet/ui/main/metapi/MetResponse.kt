@@ -6,8 +6,12 @@ import com.squareup.moshi.Json
 data class MetObject (
         @Json(name = "objectID") var objectID: Int,
         @Json(name = "primaryImage") var primaryImage: String,
-        @Json(name = "objectName") var objectName: String,
-        @Json(name = "medium") var medium: String
+        @Json(name = "title") var title: String,
+        @Json(name = "medium") var medium: String,
+        @Json(name = "artistDisplayName") var artistName: String,
+        @Json(name = "objectBeginDate") var beginYear: Int,
+        @Json(name = "objectEndDate") var endYear: Int
+
 )
 
 data class MetSearch (

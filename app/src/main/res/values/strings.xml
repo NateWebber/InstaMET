@@ -10,4 +10,10 @@
     <string name="search_results">Search Results</string>
     <string name="about">About</string>
     <string name="about_info">Developed by Nathaniel Webber using the official MET API (https://metmuseum.github.io/) </string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="unknown_artist">Artist Unknown</string>
+    <string name="unknown_title">Title Unknown</string>
+    <string name="unknown_date">Date Unknown</string>
+    <string name="unknown_medium">Medium Unknown</string>
 </resources>
