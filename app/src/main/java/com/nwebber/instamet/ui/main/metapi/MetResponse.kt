@@ -9,3 +9,8 @@ data class MetObject (
         @Json(name = "objectName") var objectName: String,
         @Json(name = "medium") var medium: String
 )
+
+data class MetSearch (
+        @Json(name = "total") var total: Int,
+        @Json(name = "objectIDs") var objectIDs: List<Int>
+        )
