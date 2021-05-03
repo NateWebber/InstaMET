@@ -7,6 +7,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 
@@ -17,7 +18,7 @@ private const val TAG = "JokeViewModel"
 class JokeViewModel : ViewModel(){
     companion object{
         val jokeApi: JokeAPI by lazy {
-            val retrofit = Retrofit.Builder().baseUrl("https://v2.jokeapi.dev").addConverterFactory(GsonConverterFactory.create()).build()
+            val retrofit = Retrofit.Builder().baseUrl("https://v2.jokeapi.dev").addConverterFactory(MoshiConverterFactory.create()).build()
             return@lazy retrofit.create(JokeAPI::class.java)
         }
 
