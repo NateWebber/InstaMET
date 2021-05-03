@@ -69,6 +69,26 @@ class ResultFragment : Fragment() {
         sharedViewModel.search_query?.let { metViewModel.runSearchByKeyWord(it) }
 
         nextButton.setOnClickListener {
+            if (current_list_index + 1 == metViewModel.search_results?.size ){
+                //TODO alert for end of list
+            }
+            else{
+                current_list_index++
+                metViewModel.search_results?.get(current_list_index)?.let { it1 -> metViewModel.fetchObjectByID(it1) }
+            }
+
+            updateUI()
+        }
+
+        backButton.setOnClickListener {
+            if (current_list_index == 0 ){
+                //TODO alert for start of list
+            }
+            else{
+                current_list_index--
+                metViewModel.search_results?.get(current_list_index)?.let { it1 -> metViewModel.fetchObjectByID(it1) }
+            }
+
             updateUI()
         }
 
