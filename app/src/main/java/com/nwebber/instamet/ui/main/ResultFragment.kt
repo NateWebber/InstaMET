@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.nwebber.instamet.R
 import com.nwebber.instamet.ui.main.metapi.MetObject
 
@@ -45,7 +46,7 @@ class ResultFragment : Fragment() {
     private lateinit var nextButton: Button
     //private lateinit var backButton: Button
 
-    private var current_list_index : Int = 0
+    //private var current_list_index : Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +54,7 @@ class ResultFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_result, container, false)
 
-        current_list_index = 0
+        //current_list_index = 0
 
 
         imageView = view.findViewById(R.id.main_imageView)
@@ -66,33 +67,54 @@ class ResultFragment : Fragment() {
         nextButton = view.findViewById(R.id.next_button)
         //backButton = view.findViewById(R.id.back_button)
 
-        sharedViewModel.search_query?.let { metViewModel.runSearchByKeyWord(it) }
+        //sharedViewModel.search_query?.let { metViewModel.runSearchByKeyWord(it) }
 
-        nextButton.setOnClickListener {
-            if (current_list_index + 1 == metViewModel.search_results?.size ){
-                //TODO alert for end of list
-            }
-            else{
-                current_list_index++
-                metViewModel.search_results?.get(current_list_index)?.let { it1 -> metViewModel.fetchObjectByID(it1) }
-            }
-
-            updateUI()
+        if (metViewModel.search_results == null){
+            //TODO handle no search results
         }
 
-        /*backButton.setOnClickListener {
-            if (current_list_index == 0 ){
-                //TODO alert for start of list
-            }
-            else{
-                current_list_index--
-                metViewModel.search_results?.get(current_list_index)?.let { it1 -> metViewModel.fetchObjectByID(it1) }
-            }
+        nextButton.setOnClickListener {
 
-            updateUI()
-        }*/
+            Log.d(TAG, "Searching for a fields!")
+            metViewModel.fetchObjectByID(436535)
+            //updateUI()
+        }
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        metViewModel.object_title.observe(viewLifecycleOwner) {
+            titleText.text = when(it){
+                null, "" -> getString(R.string.unknown_title)
+                else -> it
+            }
+        }
+        metViewModel.artist_name.observe(viewLifecycleOwner) {
+            artistText.text = when(it){
+                null, "" -> getString(R.string.unknown_artist)
+                else -> it
+            }
+        }
+        metViewModel.begin_year.observe(viewLifecycleOwner) {
+            dateText.text = when(it){
+                null, 0 -> getString(R.string.unknown_date)
+                else -> it.toString()
+            }
+        }
+        metViewModel.object_medium.observe(viewLifecycleOwner) {
+            mediumText.text = when(it){
+                null, "" -> getString(R.string.unknown_medium)
+                else -> it
+            }
+        }
+        metViewModel.image_url.observe(viewLifecycleOwner) {
+            when(it){
+                null, "" -> Log.d(TAG, "No image found!")
+                else -> Picasso.get().load(it).into(imageView)
+            }
+        }
     }
 
 
@@ -108,17 +130,17 @@ class ResultFragment : Fragment() {
             titleText.text = metViewModel.current_object?.title
         }
 
-        if (metViewModel.current_object?.artistName == null || metViewModel.current_object?.artistName == ""){
+        if (metViewModel.current_object?.artistDisplayName == null || metViewModel.current_object?.artistDisplayName == ""){
             artistText.text = getString(R.string.unknown_artist)
         }
         else{
-            artistText.text = metViewModel.current_object?.artistName
+            artistText.text = metViewModel.current_object?.artistDisplayName
         }
-        if (metViewModel.current_object?.beginYear == null || metViewModel.current_object?.beginYear == 0){
+        if (metViewModel.current_object?.objectBeginDate == null || metViewModel.current_object?.objectBeginDate == 0){
             dateText.text = getString(R.string.unknown_date)
         }
         else{
-            dateText.text = metViewModel.current_object?.beginYear.toString() //TODO figure this out
+            dateText.text = metViewModel.current_object?.objectBeginDate.toString() //TODO figure this out
         }
         if (metViewModel.current_object?.medium == null || metViewModel.current_object?.medium == ""){
             mediumText.text = getString(R.string.unknown_medium)

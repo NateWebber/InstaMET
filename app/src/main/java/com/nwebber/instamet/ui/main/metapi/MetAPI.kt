@@ -15,7 +15,8 @@ interface MetAPI {
     @GET("public/collection/v1/search")
     fun searchObjects(
             @Query("q") query : String,
-            @Query("hasImages") hasImages : String
+            @Query("hasImages") hasImages : String,
+            @Query("tags") tags : String
     ): Call<MetSearch>
 }
 

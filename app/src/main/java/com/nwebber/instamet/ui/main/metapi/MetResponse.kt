@@ -8,9 +8,9 @@ data class MetObject (
         @Json(name = "primaryImage") var primaryImage: String,
         @Json(name = "title") var title: String,
         @Json(name = "medium") var medium: String,
-        @Json(name = "artistDisplayName") var artistName: String,
-        @Json(name = "objectBeginDate") var beginYear: Int,
-        @Json(name = "objectEndDate") var endYear: Int
+        @Json(name = "artistDisplayName") var artistDisplayName: String,
+        @Json(name = "objectBeginDate") var objectBeginDate: Int
+        //@Json(name = "objectEndDate") var objectEndDate: Int
 
 )
 
