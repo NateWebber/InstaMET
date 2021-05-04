@@ -67,16 +67,20 @@ class ResultFragment : Fragment() {
         nextButton = view.findViewById(R.id.next_button)
         //backButton = view.findViewById(R.id.back_button)
 
-        //sharedViewModel.search_query?.let { metViewModel.runSearchByKeyWord(it) }
+        sharedViewModel.search_query?.let { metViewModel.runSearchByKeyWord(it) }
 
         if (metViewModel.search_results == null){
             //TODO handle no search results
         }
 
+        Log.d(TAG, "Getting first object!")
+        metViewModel.search_results?.let { it1 -> metViewModel.fetchObjectByID(it1.random()) }
+
+
         nextButton.setOnClickListener {
 
-            Log.d(TAG, "Searching for a fields!")
-            metViewModel.fetchObjectByID(436535)
+            Log.d(TAG, "Searching for a random object!")
+            metViewModel.search_results?.let { it1 -> metViewModel.fetchObjectByID(it1.random()) }
             //updateUI()
         }
 
@@ -112,44 +116,15 @@ class ResultFragment : Fragment() {
         metViewModel.image_url.observe(viewLifecycleOwner) {
             when(it){
                 null, "" -> Log.d(TAG, "No image found!")
-                else -> Picasso.get().load(it).into(imageView)
+                else -> loadImageURL(it)
             }
         }
     }
 
 
-    private fun updateUI(){
-        Log.d(TAG, "Updating UI")
-
-        Picasso.get().load(metViewModel.current_object?.primaryImage).into(imageView)
-
-        if (metViewModel.current_object?.title == null || metViewModel.current_object?.title == ""){
-            titleText.text = getString(R.string.unknown_title)
-        }
-        else{
-            titleText.text = metViewModel.current_object?.title
-        }
-
-        if (metViewModel.current_object?.artistDisplayName == null || metViewModel.current_object?.artistDisplayName == ""){
-            artistText.text = getString(R.string.unknown_artist)
-        }
-        else{
-            artistText.text = metViewModel.current_object?.artistDisplayName
-        }
-        if (metViewModel.current_object?.objectBeginDate == null || metViewModel.current_object?.objectBeginDate == 0){
-            dateText.text = getString(R.string.unknown_date)
-        }
-        else{
-            dateText.text = metViewModel.current_object?.objectBeginDate.toString() //TODO figure this out
-        }
-        if (metViewModel.current_object?.medium == null || metViewModel.current_object?.medium == ""){
-            mediumText.text = getString(R.string.unknown_medium)
-        }
-        else{
-            mediumText.text = metViewModel.current_object?.medium
-        }
-
-
+    private fun loadImageURL(url: String){
+        val picasso = Picasso.get()
+        picasso.load(url).placeholder(R.drawable.instamet_icon).into(imageView)
     }
 
     companion object {
