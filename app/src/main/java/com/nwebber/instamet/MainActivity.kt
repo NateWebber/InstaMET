@@ -47,53 +47,77 @@ class MainActivity : AppCompatActivity() {
         if (currentFragment != null) {
             Log.d(TAG, "Current Fragment: ${currentFragment.label}")
             return when (item.itemId) {
-                R.id.settings_item -> {
-                     when(currentFragment.label){
-                        "main_fragment" -> {
-                            navHostFragment.navController.navigate(R.id.action_mainFragment_to_settingsFragment)
-                            true
+                    R.id.settings_item -> {
+                         when(currentFragment.label){
+                            "main_fragment" -> {
+                                navHostFragment.navController.navigate(R.id.action_mainFragment_to_settingsFragment)
+                                true
+                            }
+                            "fragment_about" -> {
+                                navHostFragment.navController.navigate(R.id.action_aboutFragment_to_settingsFragment)
+                                true
+                            }
+                            "fragment_settings" -> {
+                                //Already here!
+                                true
+                            }
+                            "fragment_result" -> {
+                                navHostFragment.navController.navigate(R.id.action_resultFragment_to_settingsFragment)
+                                true
+                            }
+                            else ->{
+                                false
+                            }
                         }
-                        "fragment_about" -> {
-                            navHostFragment.navController.navigate(R.id.action_aboutFragment_to_settingsFragment)
-                            true
-                        }
-                        "fragment_settings" -> {
-                            //Already here!
-                            true
-                        }
-                        "fragment_result" -> {
-                            navHostFragment.navController.navigate(R.id.action_resultFragment_to_settingsFragment)
-                            true
-                        }
-                        else ->{
-                            false
-                        }
-                    }
 
-                }
-                R.id.about_item -> {
-                     when(currentFragment.label){
-                        "main_fragment" -> {
-                            navHostFragment.navController.navigate(R.id.action_mainFragment_to_aboutFragment)
-                            true
-                        }
-                        "fragment_about" -> {
-                            //Already here!
-                            true
-                        }
-                        "fragment_settings" -> {
-                            navHostFragment.navController.navigate(R.id.action_settingsFragment_to_aboutFragment)
-                            true
-                        }
-                        "fragment_result" -> {
-                            navHostFragment.navController.navigate(R.id.action_resultFragment_to_aboutFragment)
-                            true
-                        }
-                        else ->{
-                            false
+                    }
+                    R.id.about_item -> {
+                         when(currentFragment.label){
+                            "main_fragment" -> {
+                                navHostFragment.navController.navigate(R.id.action_mainFragment_to_aboutFragment)
+                                true
+                            }
+                            "fragment_about" -> {
+                                //Already here!
+                                true
+                            }
+                            "fragment_settings" -> {
+                                navHostFragment.navController.navigate(R.id.action_settingsFragment_to_aboutFragment)
+                                true
+                            }
+                            "fragment_result" -> {
+                                navHostFragment.navController.navigate(R.id.action_resultFragment_to_aboutFragment)
+                                true
+                            }
+                            else ->{
+                                false
+                            }
                         }
                     }
-                }
+                    R.id.home_item -> {
+                        when(currentFragment.label){
+                            "main_fragment" -> {
+                                //Already here!
+                                true
+                            }
+                            "fragment_about" -> {
+                                navHostFragment.navController.navigate(R.id.action_aboutFragment_to_mainFragment)
+                                true
+                            }
+                            "fragment_settings" -> {
+                                navHostFragment.navController.navigate(R.id.action_settingsFragment_to_mainFragment)
+                                true
+                            }
+                            "fragment_result" -> {
+                                navHostFragment.navController.navigate(R.id.action_resultFragment_to_mainFragment)
+                                true
+                            }
+                            else ->{
+                                false
+                            }
+                        }
+
+                    }
                 else -> super.onOptionsItemSelected(item)
             }
         }
