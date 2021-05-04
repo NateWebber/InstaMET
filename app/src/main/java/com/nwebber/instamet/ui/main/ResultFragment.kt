@@ -71,7 +71,7 @@ class ResultFragment : Fragment() {
         }
 
         Log.d(TAG, "Getting first object!")
-        metViewModel.search_results?.let { it1 -> metViewModel.fetchObjectByID(it1.random()) }
+        //metViewModel.search_results?.let { it1 -> metViewModel.fetchObjectByID(it1.random()) }
 
 
         nextButton.setOnClickListener {

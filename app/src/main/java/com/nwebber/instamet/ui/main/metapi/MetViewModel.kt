@@ -87,6 +87,7 @@ class MetViewModel : ViewModel(){
                     Log.d(TAG, "IDs: ${body?.objectIDs}") //might have to comment this one out later
                     search_results = null
                     search_results = body.objectIDs
+                    Log.d(TAG, "Getting first object!")
                     fetchObjectByID(search_results!![0])
 
                 }
