@@ -1,7 +1,9 @@
 package com.nwebber.instamet.ui.main
 
+import android.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +13,11 @@ import android.widget.EditText
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.nwebber.instamet.R
+import com.nwebber.instamet.ui.main.MainFragment.Companion.newInstance
 
-class MainFragment : Fragment() {
+private const val TAG = "MainFragment"
+
+class MainFragment : Fragment(), AlertDialogFragment.ProceedListener {
 
     companion object {
         fun newInstance() = MainFragment()
@@ -21,7 +26,7 @@ class MainFragment : Fragment() {
     private val sharedViewModel: MainViewModel by activityViewModels()
     private lateinit var searchButton: Button
     private lateinit var inputField: EditText
-
+    private lateinit var main_view: View
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val view =  inflater.inflate(R.layout.main_fragment, container, false)
@@ -36,12 +41,20 @@ class MainFragment : Fragment() {
                 view.findNavController().navigate(R.id.action_mainFragment_to_resultFragment)
             }
             else{
-                //TODO alert there was no input
+                Log.d(TAG, "Showing alert!")
+                val dialog = AlertDialogFragment.newInstance(this)
+                dialog.show(childFragmentManager, "dialog")
             }
         }
 
-
+        main_view = view
         return view
+    }
+
+    override fun proceedSearch() {
+        Log.d(TAG, "Proceeding with potentially bad keyword!")
+        sharedViewModel.search_query = inputField.text.toString()
+        main_view.findNavController().navigate(R.id.action_mainFragment_to_resultFragment)
     }
 
 

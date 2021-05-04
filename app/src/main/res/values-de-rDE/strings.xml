@@ -5,7 +5,7 @@
     <string name="search">Suche</string>
     <string name="keyword">Schlüsselwort</string>
     <string name="input_keyword">Geben Sie ein Schlüsselwort ein!</string>
-    <string name="no_result">Es konnten keine Ergebnisse für Ihre Anfrage gefunden werden!</string>
+    <string name="bad_keyword">Ups! Wir glauben, dass mit Ihrem Schlüsselwort etwas nicht stimmt. Fortfahren?</string>
     <string name="settings">Einstellungen</string>
     <string name="search_results">Suchergebnisse</string>
     <string name="about">About</string>
@@ -16,4 +16,5 @@
     <string name="unknown_title">Unbekannter Titel</string>
     <string name="unknown_date">Unbekanntes Datum</string>
     <string name="unknown_medium">Unbekanntes Medium</string>
+    <string name="back">Zurück</string>
 </resources>
