@@ -25,8 +25,6 @@ class ResultFragment : Fragment() {
         ViewModelProvider(this).get(MetViewModel::class.java)
     }
 
-    //var current_object : MetObject? = null
-
     private lateinit var imageView: ImageView
 
     private lateinit var titleText: TextView
@@ -34,11 +32,7 @@ class ResultFragment : Fragment() {
     private lateinit var dateText: TextView
     private lateinit var mediumText: TextView
 
-
     private lateinit var nextButton: Button
-    //private lateinit var backButton: Button
-
-    //private var current_list_index : Int = 0
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -51,8 +45,6 @@ class ResultFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_result, container, false)
         setHasOptionsMenu(true)
-        //current_list_index = 0
-
 
         imageView = view.findViewById(R.id.main_imageView)
 
@@ -62,7 +54,6 @@ class ResultFragment : Fragment() {
         mediumText = view.findViewById(R.id.art_medium_textView)
 
         nextButton = view.findViewById(R.id.next_button)
-        //backButton = view.findViewById(R.id.back_button)
 
         sharedViewModel.search_query?.let { metViewModel.runSearchByKeyWord(it) }
 
@@ -70,15 +61,9 @@ class ResultFragment : Fragment() {
             //TODO handle no search results
         }
 
-        Log.d(TAG, "Getting first object!")
-        //metViewModel.search_results?.let { it1 -> metViewModel.fetchObjectByID(it1.random()) }
-
-
         nextButton.setOnClickListener {
-
             Log.d(TAG, "Searching for a random object!")
             metViewModel.search_results?.let { it1 -> metViewModel.fetchObjectByID(it1.random()) }
-            //updateUI()
         }
 
         return view

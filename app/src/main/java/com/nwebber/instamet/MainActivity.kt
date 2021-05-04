@@ -1,13 +1,16 @@
 package com.nwebber.instamet
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.nwebber.instamet.ui.main.MainFragment
+import com.nwebber.instamet.ui.main.AboutFragment
+
+private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navHostFragment: NavHostFragment
@@ -40,16 +43,60 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.settings_item -> {
-                navHostFragment.navController.navigate(R.id.action_mainFragment_to_settingsFragment)
-                true
+        val currentFragment = Navigation.findNavController(this, R.id.nav_host_fragment).currentDestination
+        if (currentFragment != null) {
+            Log.d(TAG, "Current Fragment: ${currentFragment.label}")
+            return when (item.itemId) {
+                R.id.settings_item -> {
+                     when(currentFragment.label){
+                        "main_fragment" -> {
+                            navHostFragment.navController.navigate(R.id.action_mainFragment_to_settingsFragment)
+                            true
+                        }
+                        "fragment_about" -> {
+                            navHostFragment.navController.navigate(R.id.action_aboutFragment_to_settingsFragment)
+                            true
+                        }
+                        "fragment_settings" -> {
+                            //Already here!
+                            true
+                        }
+                        "fragment_result" -> {
+                            navHostFragment.navController.navigate(R.id.action_resultFragment_to_settingsFragment)
+                            true
+                        }
+                        else ->{
+                            false
+                        }
+                    }
+
+                }
+                R.id.about_item -> {
+                     when(currentFragment.label){
+                        "main_fragment" -> {
+                            navHostFragment.navController.navigate(R.id.action_mainFragment_to_aboutFragment)
+                            true
+                        }
+                        "fragment_about" -> {
+                            //Already here!
+                            true
+                        }
+                        "fragment_settings" -> {
+                            navHostFragment.navController.navigate(R.id.action_settingsFragment_to_aboutFragment)
+                            true
+                        }
+                        "fragment_result" -> {
+                            navHostFragment.navController.navigate(R.id.action_resultFragment_to_aboutFragment)
+                            true
+                        }
+                        else ->{
+                            false
+                        }
+                    }
+                }
+                else -> super.onOptionsItemSelected(item)
             }
-            R.id.about_item -> {
-                navHostFragment.navController.navigate(R.id.action_mainFragment_to_aboutFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
+        return true
     }
 }
