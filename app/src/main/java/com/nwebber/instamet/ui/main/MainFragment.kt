@@ -25,6 +25,7 @@ class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val view =  inflater.inflate(R.layout.main_fragment, container, false)
+        //setHasOptionsMenu(true)
         inputField = view.findViewById(R.id.keyword_input_textView)
         searchButton = view.findViewById(R.id.search_button)
 

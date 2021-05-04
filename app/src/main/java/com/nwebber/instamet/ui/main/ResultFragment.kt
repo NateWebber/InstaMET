@@ -2,10 +2,8 @@ package com.nwebber.instamet.ui.main
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,12 +17,6 @@ import com.nwebber.instamet.ui.main.metapi.MetViewModel
 
 import com.squareup.picasso.Picasso
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ResultFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 private const val TAG = "ResultFragment"
 class ResultFragment : Fragment() {
     private val sharedViewModel: MainViewModel by activityViewModels()
@@ -48,12 +40,17 @@ class ResultFragment : Fragment() {
 
     //private var current_list_index : Int = 0
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_result, container, false)
-
+        setHasOptionsMenu(true)
         //current_list_index = 0
 
 

@@ -2,6 +2,9 @@ package com.nwebber.instamet
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.nwebber.instamet.ui.main.MainFragment
@@ -26,5 +29,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onSupportNavigateUp() = Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.settings_item -> {
+                navHostFragment.navController.navigate(R.id.action_mainFragment_to_settingsFragment)
+                true
+            }
+            R.id.about_item -> {
+                navHostFragment.navController.navigate(R.id.action_mainFragment_to_aboutFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
