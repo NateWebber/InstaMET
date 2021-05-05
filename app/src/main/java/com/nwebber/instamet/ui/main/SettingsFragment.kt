@@ -62,9 +62,23 @@ class SettingsFragment : Fragment() {
             optionSwitch.setOnClickListener {
                 Log.d(TAG, "Clicked!")
                 if (optionSwitch.isChecked){
-                    with(prefs.edit()){
-                        putBoolean(optionSwitch.text as String?, true)
-                        apply()
+                    var optionsList = sharedViewModel.optionNameList
+                    optionsList.forEach {
+                        var optionString = getString(it)
+                        if (optionString == optionSwitch.text){
+                            with(prefs.edit()){
+                                putBoolean(optionSwitch.text as String?, true)
+                                apply()
+                            }
+                        }
+                        else{
+                            with(prefs.edit()){
+                                Log.d(TAG, "setting a found option to false")
+                                putBoolean(optionString, false)
+                                apply()
+                                refreshRecyler()
+                            }
+                        }
                     }
                 }
                 else{
@@ -78,7 +92,7 @@ class SettingsFragment : Fragment() {
 
         override fun onClick(v: View?) {
             Log.d(TAG, "Clicked!")
-            if (optionSwitch.isChecked){
+            /*if (optionSwitch.isChecked){
                with(prefs.edit()){
                    putBoolean(optionSwitch.text as String?, true)
                    apply()
@@ -89,7 +103,7 @@ class SettingsFragment : Fragment() {
                     putBoolean(optionSwitch.text as String?, false)
                     apply()
                 }
-            }
+            }*/
         }
     }
 
@@ -104,6 +118,15 @@ class SettingsFragment : Fragment() {
         override fun onBindViewHolder(holder: SettingsViewHolder, position: Int) {
             holder.bind(list[position])
         }
+
+    }
+    private fun refreshRecyler(){
+        recycler.adapter = null;
+        recycler.layoutManager = null;
+        recycler.layoutManager = LinearLayoutManager(context);
+        sharedViewModel.optionVocab.observe(viewLifecycleOwner, {
+            recycler.adapter = SettingsAdapter(it)
+        })
 
     }
 

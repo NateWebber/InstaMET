@@ -1,5 +1,6 @@
 package com.nwebber.instamet.ui.main
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.preference.PreferenceManager
 import com.nwebber.instamet.R
 import com.nwebber.instamet.ui.main.metapi.MetObject
 
@@ -20,6 +22,10 @@ import com.squareup.picasso.Picasso
 private const val TAG = "ResultFragment"
 class ResultFragment : Fragment() {
     private val sharedViewModel: MainViewModel by activityViewModels()
+
+    private val prefs: SharedPreferences by lazy{
+        PreferenceManager.getDefaultSharedPreferences(this.activity)
+    }
 
     private val metViewModel: MetViewModel by lazy{
         ViewModelProvider(this).get(MetViewModel::class.java)
@@ -58,7 +64,7 @@ class ResultFragment : Fragment() {
         sharedViewModel.search_query?.let { metViewModel.runSearchByKeyWord(it) }
 
         if (metViewModel.search_results == null){
-            //TODO handle no search results
+
         }
 
         nextButton.setOnClickListener {
@@ -106,7 +112,10 @@ class ResultFragment : Fragment() {
 
     private fun loadImageURL(url: String){
         val picasso = Picasso.get()
-        picasso.load(url).placeholder(R.drawable.instamet_icon).into(imageView)
+        picasso
+            .load(url)
+            .placeholder(R.drawable.instamet_icon)
+            .into(imageView)
     }
 
     companion object {
