@@ -62,23 +62,9 @@ class SettingsFragment : Fragment() {
             optionSwitch.setOnClickListener {
                 Log.d(TAG, "Clicked!")
                 if (optionSwitch.isChecked){
-                    var optionsList = sharedViewModel.optionNameList
-                    optionsList.forEach {
-                        var optionString = getString(it)
-                        if (optionString == optionSwitch.text){
-                            with(prefs.edit()){
-                                putBoolean(optionSwitch.text as String?, true)
-                                apply()
-                            }
-                        }
-                        else{
-                            with(prefs.edit()){
-                                Log.d(TAG, "setting a found option to false")
-                                putBoolean(optionString, false)
-                                apply()
-                                refreshRecyler()
-                            }
-                        }
+                    with(prefs.edit()){
+                        putBoolean(optionSwitch.text as String?, true)
+                        apply()
                     }
                 }
                 else{
@@ -92,18 +78,6 @@ class SettingsFragment : Fragment() {
 
         override fun onClick(v: View?) {
             Log.d(TAG, "Clicked!")
-            /*if (optionSwitch.isChecked){
-               with(prefs.edit()){
-                   putBoolean(optionSwitch.text as String?, true)
-                   apply()
-               }
-            }
-            else{
-                with(prefs.edit()){
-                    putBoolean(optionSwitch.text as String?, false)
-                    apply()
-                }
-            }*/
         }
     }
 

@@ -64,4 +64,5 @@ dependencies {
     implementation "androidx.preference:preference-ktx:1.1.1"
     //picasso transformations
     implementation 'jp.wasabeef:picasso-transformations:2.4.0'
+    implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
 }

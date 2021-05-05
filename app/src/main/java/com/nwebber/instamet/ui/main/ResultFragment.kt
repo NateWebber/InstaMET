@@ -18,6 +18,10 @@ import com.nwebber.instamet.ui.main.metapi.MetObject
 import com.nwebber.instamet.ui.main.metapi.MetViewModel
 
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.Transformation
+import jp.wasabeef.picasso.transformations.GrayscaleTransformation
+import jp.wasabeef.picasso.transformations.gpu.InvertFilterTransformation
+import jp.wasabeef.picasso.transformations.gpu.PixelationFilterTransformation
 
 private const val TAG = "ResultFragment"
 class ResultFragment : Fragment() {
@@ -112,10 +116,30 @@ class ResultFragment : Fragment() {
 
     private fun loadImageURL(url: String){
         val picasso = Picasso.get()
-        picasso
-            .load(url)
-            .placeholder(R.drawable.instamet_icon)
-            .into(imageView)
+        val transformations = generateTransformations()
+        if (transformations.isEmpty()){
+            picasso.load(url).placeholder(R.drawable.instamet_icon).into(imageView)
+        }
+        else{
+            picasso.load(url).transform(transformations).placeholder(R.drawable.instamet_icon).into(imageView)
+        }
+    }
+
+    private fun generateTransformations() : MutableList<Transformation>{
+        var returnList : MutableList<Transformation> = mutableListOf()
+        if (prefs.getBoolean(getString(R.string.grayscale), false)){
+            Log.d(TAG, "Grayscale!")
+            returnList.add(GrayscaleTransformation())
+        }
+        if (prefs.getBoolean(getString(R.string.pixelate), false)){
+            Log.d(TAG, "Pixelate!")
+            returnList.add(PixelationFilterTransformation(context))
+        }
+        if (prefs.getBoolean(getString(R.string.invert), false)){
+            Log.d(TAG, "Invert!")
+            returnList.add(InvertFilterTransformation(context))
+        }
+        return returnList
     }
 
     companion object {
