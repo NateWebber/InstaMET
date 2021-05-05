@@ -1,5 +1,6 @@
 package com.nwebber.instamet
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -8,11 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import androidx.preference.PreferenceManager
 import com.nwebber.instamet.ui.main.AboutFragment
 
 private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
+    private val prefs: SharedPreferences by lazy{
+        PreferenceManager.getDefaultSharedPreferences(this)
+    }
     private lateinit var navHostFragment: NavHostFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

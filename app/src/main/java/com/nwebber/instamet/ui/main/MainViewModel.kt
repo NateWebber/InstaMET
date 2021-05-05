@@ -1,12 +1,16 @@
 package com.nwebber.instamet.ui.main
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.preference.PreferenceManager
 import com.nwebber.instamet.R
 
 private const val TAG = "MainViewModel"
+
+
 
 class MainViewModel : ViewModel() {
     var search_query : String? = null

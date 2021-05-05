@@ -1,5 +1,6 @@
 package com.nwebber.instamet.ui.main
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -7,16 +8,22 @@ import android.widget.Switch
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nwebber.instamet.R
 
 private const val TAG = "SettingsFragment"
 
+
+
 class SettingsFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
+    }
+    private val prefs: SharedPreferences by lazy{
+        PreferenceManager.getDefaultSharedPreferences(this.activity)
     }
 
     private val sharedViewModel: MainViewModel by activityViewModels()
@@ -51,10 +58,38 @@ class SettingsFragment : Fragment() {
 
         fun bind(setting: Int){
             optionSwitch.text = getString(setting)
+            optionSwitch.isChecked = prefs.getBoolean(optionSwitch.text as String, false)
+            optionSwitch.setOnClickListener {
+                Log.d(TAG, "Clicked!")
+                if (optionSwitch.isChecked){
+                    with(prefs.edit()){
+                        putBoolean(optionSwitch.text as String?, true)
+                        apply()
+                    }
+                }
+                else{
+                    with(prefs.edit()){
+                        putBoolean(optionSwitch.text as String?, false)
+                        apply()
+                    }
+                }
+            }
         }
 
         override fun onClick(v: View?) {
             Log.d(TAG, "Clicked!")
+            if (optionSwitch.isChecked){
+               with(prefs.edit()){
+                   putBoolean(optionSwitch.text as String?, true)
+                   apply()
+               }
+            }
+            else{
+                with(prefs.edit()){
+                    putBoolean(optionSwitch.text as String?, false)
+                    apply()
+                }
+            }
         }
     }
 
