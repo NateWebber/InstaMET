@@ -60,4 +60,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     //moshi
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    //preferences
+    implementation "androidx.preference:preference-ktx:1.1.1"
+    //picasso transformations
+    implementation 'jp.wasabeef:picasso-transformations:2.4.0'
 }

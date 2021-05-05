@@ -10,9 +10,12 @@ import com.nwebber.instamet.R
 
 class AboutFragment : Fragment() {
 
-   private lateinit var nameTextView: TextView
-   private lateinit var versionTextView: TextView
-
+    private lateinit var nameTextView: TextView
+    private lateinit var versionTextView: TextView
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,

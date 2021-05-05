@@ -18,4 +18,7 @@
     <string name="unknown_medium">Medium Unknown</string>
     <string name="back">Back</string>
     <string name="home">Home</string>
+    <string name="grayscale">Grayscale</string>
+    <string name="pixelate">Pixelate</string>
+    <string name="invert">Invert Colors</string>
 </resources>

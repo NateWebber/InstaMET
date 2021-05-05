@@ -1,20 +1,75 @@
 package com.nwebber.instamet.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.Switch
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.observe
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.nwebber.instamet.R
 
-class SettingsFragment : Fragment() {
+private const val TAG = "SettingsFragment"
 
+class SettingsFragment : Fragment() {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+    }
+
+    private val sharedViewModel: MainViewModel by activityViewModels()
+    private lateinit var recycler: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        val view = inflater.inflate(R.layout.fragment_settings, container, false)
+
+        recycler = view.findViewById(R.id.settings_recycler)
+        recycler.layoutManager = LinearLayoutManager(context)
+
+
+        return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        sharedViewModel.optionVocab.observe(viewLifecycleOwner, {
+            recycler.adapter = SettingsAdapter(it)
+        })
+    }
+
+    private inner class SettingsViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener{
+        private val optionSwitch : Switch = itemView.findViewById(R.id.option_Switch)
+        init{
+            itemView.setOnClickListener(this)
+        }
+
+        fun bind(setting: Int){
+            optionSwitch.text = getString(setting)
+        }
+
+        override fun onClick(v: View?) {
+            Log.d(TAG, "Clicked!")
+        }
+    }
+
+    private inner class SettingsAdapter(private val list: List<Int>) : RecyclerView.Adapter<SettingsViewHolder>(){
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsViewHolder {
+            val view = layoutInflater.inflate(R.layout.recycler_item, parent, false)
+            return SettingsViewHolder(view)
+        }
+
+        override fun getItemCount() = list.size
+
+        override fun onBindViewHolder(holder: SettingsViewHolder, position: Int) {
+            holder.bind(list[position])
+        }
+
+    }
 
 }
